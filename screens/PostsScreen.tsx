@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
 import { useEffect, useState } from 'react';
 import { TPost } from '../types'
 import { Post } from '../components/Post';
@@ -18,6 +18,7 @@ export default function PostsScreen({ navigation, route }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>News By User ID: {userId}</Text>
+      <Button title={'back'} onPress={() => navigation.navigate('TabTwo')} />
       <ScrollView>
         {posts.map((post) => {
           return <Post post={post} navigation={navigation} key={post.id} indicator={'userId'} />
