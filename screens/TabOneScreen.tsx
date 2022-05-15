@@ -1,10 +1,18 @@
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { RootTabScreenProps } from '../types';
-import { useEffect, useState } from 'react';
+import {FC, useEffect, useMemo, useState} from 'react';
 import { TPost } from '../types'
 import { Post } from '../components/Post';
+import {connect} from "react-redux";
+import {removePost, setPost} from "../infrastructure/redux/action/action";
 
-export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
+type TabOneScreenProps = {
+  navigation: any,
+  favorites: any,
+  unset: any,
+  set: any
+}
+
+const TabOneScreen: FC<TabOneScreenProps> = ({ navigation, favorites, unset, set }) => {
   const [posts, setPosts] = useState<Array<TPost> | []>([])
 
   useEffect(() => {
@@ -13,12 +21,26 @@ export default function TabOneScreen({ navigation }: RootTabScreenProps<'TabOne'
       .then(json => setPosts(json))
   }, [])
 
+  const favoritesIds = useMemo(() => {
+    return favorites.map((favorite: any) => {
+      return favorite.id
+    })
+  }, [favorites])
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>News</Text>
       <ScrollView>
         {posts.map((post) => {
-          return <Post post={post} navigation={navigation} key={post.id} indicator={'id'} />
+          const remove = favoritesIds.includes(post.id)
+
+          return <Post
+            post={post}
+            navigation={navigation}
+            key={post.id}
+            indicator={'id'}
+            action={remove ? ['remove', unset] : ['set', set]}
+          />
         })}
       </ScrollView>
     </View>
@@ -41,3 +63,12 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
+
+const mapStateToProps = (state: any) => ({
+  favorites: state.favorite.favorites
+});
+
+export default connect(mapStateToProps, {
+  unset: removePost,
+  set: setPost
+})(TabOneScreen);

@@ -5,15 +5,19 @@ import {Button, StyleSheet, Text, View} from "react-native";
 type PostProps = {
 	post: TPost,
 	indicator: 'id' | 'userId',
-	navigation: any
+	navigation: any,
+	action: any
 }
 
-export const Post: FC<PostProps> = ({ post, navigation, indicator }) => {
+export const Post: FC<PostProps> = ({ post, navigation, indicator, action }) => {
+	const setPost = action[0] === 'set'
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>{post.title}</Text>
 			<Text style={styles.body}>{post.body}</Text>
 			<Text style={styles.category}>USER ID: {post.userId}</Text>
+			<Button title={action[0]}  onPress={() => action[1](setPost ? post : post.id) }/>
 			<Button title={'read more'} onPress={() => navigation.navigate('Post', {
 				indicator,
 				value: post.id

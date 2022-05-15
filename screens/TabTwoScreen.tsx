@@ -3,7 +3,7 @@ import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
 const userIds = [1, 2, 3, 4, 5, 6]
 
 // @ts-ignore
-export default function TabTwoScreen({ navigation }) {
+const TabTwoScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Users</Text>
@@ -45,3 +45,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 });
+
+export default TabTwoScreen;
