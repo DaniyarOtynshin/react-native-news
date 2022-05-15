@@ -1,4 +1,5 @@
-import {Button, StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'react-native-paper';
 import {useEffect, useState} from 'react';
 import {TPost} from "../types";
 
@@ -29,7 +30,7 @@ const PostScreen = ({ navigation, route }) => {
       <Text style={styles.title}>Post</Text>
       <Text style={styles.title}>Title: {post?.title}</Text>
       <Text style={styles.body}>Body: {post?.body}</Text>
-      <Button title={'back'} onPress={() => navigation.navigate(...routeBack)} />
+      <Button mode={'contained'} onPress={() => navigation.navigate(...routeBack)}>Back</Button>
     </View>
   );
 }
@@ -49,6 +50,7 @@ const styles = StyleSheet.create({
   body: {
     fontSize: 10,
     fontWeight: 'normal',
+    marginBottom: 10
   },
 });
 

@@ -1,6 +1,8 @@
-import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
+import { ScrollView, StyleSheet, View} from 'react-native';
+import {Button, Divider, Text } from 'react-native-paper';
 
-const userIds = [1, 2, 3, 4, 5, 6]
+
+const userIds = [1, 2, 3, 4, 5, 6, 7, 8]
 
 // @ts-ignore
 const TabTwoScreen = ({ navigation }) => {
@@ -13,7 +15,10 @@ const TabTwoScreen = ({ navigation }) => {
             return (
               <View style={styles.tab} key={userId}>
                 <Text>{userId}</Text>
-                <Button title={'Go'} onPress={() => navigation.navigate('PostsScreen', {userId}) } />
+                <Divider />
+                <Button onPress={() => navigation.navigate('PostsScreen', {userId}) }>
+                  Go
+                </Button>
               </View>
             )
           })}

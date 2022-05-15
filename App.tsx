@@ -2,6 +2,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import useCachedResources from './hooks/useCachedResources';
 import Navigation from './navigation';
 import {Provider} from "react-redux";
+import { Provider as PaperProvider } from 'react-native-paper';
 import store from "./infrastructure/store";
 
 export default function App() {
@@ -11,9 +12,11 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      <SafeAreaProvider>
-        <Navigation />
-      </SafeAreaProvider>
+      <PaperProvider>
+        <SafeAreaProvider>
+          <Navigation />
+        </SafeAreaProvider>
+      </PaperProvider>
     </Provider>
   );
 }

@@ -1,7 +1,9 @@
-import {Button, ScrollView, StyleSheet, Text, View} from 'react-native';
+import { ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useEffect, useMemo, useState} from 'react';
 import { TPost } from '../types'
 import { Post } from '../components/Post';
+import { Button } from 'react-native-paper';
+
 
 import {connect} from "react-redux";
 import {removePost, setPost} from "../infrastructure/redux/action/action";
@@ -27,7 +29,7 @@ const PostsScreen = ({ navigation, route, unset, set, favorites }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>News By User ID: {userId}</Text>
-      <Button title={'back'} onPress={() => navigation.navigate('TabTwo')} />
+      <Button mode={'contained'} onPress={() => navigation.navigate('TabTwo')}>back</Button>
       <ScrollView>
         {posts.map((post) => {
           const remove = favoritesIds.includes(post.id)
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 10,
   },
   separator: {
     marginVertical: 30,

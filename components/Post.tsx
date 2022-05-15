@@ -1,6 +1,7 @@
 import { TPost } from '../types';
 import { FC } from 'react';
-import {Button, StyleSheet, Text, View} from "react-native";
+import { StyleSheet, Text, View} from "react-native";
+import { Card, Button } from 'react-native-paper';
 
 type PostProps = {
 	post: TPost,
@@ -13,16 +14,22 @@ export const Post: FC<PostProps> = ({ post, navigation, indicator, action }) => 
 	const setPost = action[0] === 'set'
 
 	return (
-		<View style={styles.container}>
+		<Card style={styles.container}>
 			<Text style={styles.title}>{post.title}</Text>
 			<Text style={styles.body}>{post.body}</Text>
 			<Text style={styles.category}>USER ID: {post.userId}</Text>
-			<Button title={action[0]}  onPress={() => action[1](setPost ? post : post.id) }/>
-			<Button title={'read more'} onPress={() => navigation.navigate('Post', {
-				indicator,
-				value: post.id
-			})} />
-		</View>
+			<Card.Actions>
+				<Button mode="contained" onPress={() => action[1](setPost ? post : post.id) }>
+					{action[0]}
+				</Button>
+				<Button onPress={() => navigation.navigate('Post', {
+					indicator,
+					value: post.id
+				})}>
+					read more
+				</Button>
+			</Card.Actions>
+		</Card>
 	)
 }
 
@@ -36,9 +43,6 @@ const styles = StyleSheet.create({
 		paddingRight: 20,
 		paddingBottom: 20,
 		width: '90%',
-		borderWidth: 1,
-		borderRadius: 10,
-		borderColor: '#d7d7d7'
 	},
 	title: {
 		fontSize: 16,
