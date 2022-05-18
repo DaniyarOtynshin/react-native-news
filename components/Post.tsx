@@ -1,28 +1,39 @@
 import { TPost } from '../types';
 import { FC } from 'react';
-import { StyleSheet, Text, View} from "react-native";
+import { StyleSheet, Text, Image } from "react-native";
 import { Card, Button } from 'react-native-paper';
 
 type PostProps = {
 	post: TPost,
-	indicator: 'id' | 'userId',
+	indicator: 'id' | 'albumId',
 	navigation: any,
 	action: any
 }
 
 export const Post: FC<PostProps> = ({ post, navigation, indicator, action }) => {
-	const setPost = action[0] === 'set'
+	const setPost = action[0] === 'add'
 
+	const title = post.title.split(' ')[0]
+
+	// @ts-ignore
 	return (
 		<Card style={styles.container}>
-			<Text style={styles.title}>{post.title}</Text>
-			<Text style={styles.body}>{post.body}</Text>
-			<Text style={styles.category}>USER ID: {post.userId}</Text>
-			<Card.Actions>
-				<Button mode="contained" onPress={() => action[1](setPost ? post : post.id) }>
+			<Text style={styles.title}>
+				{title}
+			</Text>
+			<Image style={styles.tinyLogo} source={{ uri: post?.thumbnailUrl }} />
+			<Text style={styles.category}>
+				ALBUM ID: {post.albumId}
+			</Text>
+			<Card.Actions style={styles.buttons}>
+				<Button
+					style={setPost ? styles['button-left--active'] : styles['button-left']}
+					mode="contained"
+					onPress={() => action[1](setPost ? post : post.id) }
+				>
 					{action[0]}
 				</Button>
-				<Button onPress={() => navigation.navigate('Post', {
+				<Button style={styles['button-right']} mode="contained" onPress={() => navigation.navigate('Post', {
 					indicator,
 					value: post.id
 				})}>
@@ -36,29 +47,51 @@ export const Post: FC<PostProps> = ({ post, navigation, indicator, action }) => 
 const styles = StyleSheet.create({
 	container: {
 		display: 'flex',
-		alignItems: 'center',
 		margin: 10,
 		paddingTop: 10,
-		paddingLeft: 20,
-		paddingRight: 20,
-		paddingBottom: 20,
-		width: '90%',
+		paddingLeft: 10,
+		paddingRight: 10,
+		paddingBottom: 10,
+		borderRadius: '15%',
+		width: '95%',
 	},
 	title: {
 		fontSize: 16,
 		fontWeight: 'bold',
-		maxWidth: '80%',
-		marginBottom: 12,
-		textAlign: 'center'
-	},
-	body: {
-		fontSize: 10,
-		fontWeight: 'normal',
+		marginBottom: 15,
+		textAlign: 'center',
+		textTransform: 'uppercase'
 	},
 	category: {
-		fontSize: 10,
+		fontSize: 16,
 		fontWeight: 'normal',
-		alignSelf: 'flex-start',
-		marginTop: 10
+		marginTop: 20
 	},
+	tinyLogo: {
+		width: 'auto',
+		height: 100,
+		borderRadius: '15%',
+	},
+	buttons: {
+		marginTop: 10,
+		display: 'flex',
+		width: '100%',
+		justifyContent: 'space-between'
+	},
+	'button-left--active': {
+		width: '45%',
+		backgroundColor: '#28b907',
+		borderRadius: 12,
+	},
+	'button-left': {
+		width: '45%',
+		backgroundColor: '#f33a3a',
+		borderRadius: 12,
+	},
+	'button-right': {
+		width: '45%',
+		backgroundColor: '#003b62',
+		color: '#fff',
+		borderRadius: 12
+	}
 });

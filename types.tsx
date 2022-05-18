@@ -32,8 +32,9 @@ export type RootTabScreenProps<Screen extends keyof RootTabParamList> = Composit
 >;
 
 export type TPost = {
-  userId: number;
+  albumId: number;
   id: number;
   title: string;
-  body: string;
+  url: string;
+  thumbnailUrl: string;
 }

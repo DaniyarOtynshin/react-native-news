@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View} from 'react-native';
+import { ScrollView, StyleSheet, View} from 'react-native';
 import { connect } from 'react-redux';
 import {Post} from "../components/Post";
 import {removePost} from "../infrastructure/redux/action/action";
@@ -7,9 +7,8 @@ import {removePost} from "../infrastructure/redux/action/action";
 function TabThreeScreen({ navigation, favorites, remove }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Favorite News</Text>
       <View style={styles.nav}>
-        <ScrollView>
+        <ScrollView style={styles.scroll}>
           {favorites.map((favoritePost: any) => {
             return <Post
               post={favoritePost}
@@ -28,14 +27,15 @@ function TabThreeScreen({ navigation, favorites, remove }) {
 const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
-    display: 'flex',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%'
   },
   nav: {
     alignSelf: 'flex-start',
-    paddingLeft: 20
+    paddingLeft: 20,
+    width: '100%'
   },
   tab: {
     display: 'flex',
@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  scroll: {
+    width: '95%'
   }
 });
 

@@ -43,16 +43,16 @@ function BottomTabNavigator() {
         name="TabOne"
         component={TabOneScreen}
         options={{
-          title: 'News',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
+          title: 'Posts',
+          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />
         }}
       />
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: 'Users',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: 'Albums',
+          tabBarIcon: ({ color }) => <TabBarIcon name="folder" color={color} />,
         }}
       />
       <BottomTab.Screen
@@ -60,7 +60,7 @@ function BottomTabNavigator() {
         component={TabThreeScreen}
         options={{
           title: 'Favorites',
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />
+          tabBarIcon: ({ color }) => <TabBarIcon name="star" color={color} />
         }}
       />
     </BottomTab.Navigator>

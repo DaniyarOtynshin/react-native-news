@@ -13,10 +13,10 @@ type TabOneScreenProps = {
 }
 
 const TabOneScreen: FC<TabOneScreenProps> = ({ navigation, favorites, unset, set }) => {
-  const [posts, setPosts] = useState<Array<TPost> | []>([])
+  const [photos, setPosts] = useState<Array<TPost> | []>([])
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts')
+    fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
       .then(response => response.json())
       .then(json => setPosts(json))
   }, [])
@@ -29,9 +29,8 @@ const TabOneScreen: FC<TabOneScreenProps> = ({ navigation, favorites, unset, set
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>News</Text>
-      <ScrollView>
-        {posts.map((post) => {
+      <ScrollView style={styles.scroll}>
+        {photos.map((post) => {
           const remove = favoritesIds.includes(post.id)
 
           return <Post
@@ -39,7 +38,7 @@ const TabOneScreen: FC<TabOneScreenProps> = ({ navigation, favorites, unset, set
             navigation={navigation}
             key={post.id}
             indicator={'id'}
-            action={remove ? ['remove', unset] : ['set', set]}
+            action={remove ? ['remove', unset] : ['add', set]}
           />
         })}
       </ScrollView>
@@ -62,6 +61,9 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  scroll: {
+    width: '95%'
+  }
 });
 
 const mapStateToProps = (state: any) => ({

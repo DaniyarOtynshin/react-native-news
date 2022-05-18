@@ -10,9 +10,9 @@ import {removePost, setPost} from "../infrastructure/redux/action/action";
 
 // @ts-ignore
 const PostsScreen = ({ navigation, route, unset, set, favorites }) => {
-  const userId = route.params.userId
+  const albumId = route.params.albumId
 
-  const [posts, setPosts] = useState<Array<TPost> | []>([])
+  const [photos, setPosts] = useState<Array<TPost> | []>([])
 
   const favoritesIds = useMemo(() => {
     return favorites.map((favorite: any) => {
@@ -21,24 +21,26 @@ const PostsScreen = ({ navigation, route, unset, set, favorites }) => {
   }, [favorites])
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/posts?userId=' + userId)
+    fetch('https://jsonplaceholder.typicode.com/photos?albumId=' + albumId)
       .then(response => response.json())
       .then(json => setPosts(json))
   }, [])
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>News By User ID: {userId}</Text>
-      <Button mode={'contained'} onPress={() => navigation.navigate('TabTwo')}>back</Button>
-      <ScrollView>
-        {posts.map((post) => {
+      <View style={styles.header}>
+        <Button style={styles.button} onPress={() => navigation.navigate('TabTwo')}>back</Button>
+        <Text style={styles.title}>Album: {albumId}</Text>
+      </View>
+      <ScrollView style={styles.scroll}>
+        {photos.map((post) => {
           const remove = favoritesIds.includes(post.id)
 
           return <Post
             post={post}
             navigation={navigation}
             key={post.id}
-            indicator={'userId'}
+            indicator={'albumId'}
             action={remove ? ['remove', unset] : ['set', set]}
           />
         })}
@@ -53,18 +55,35 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 50,
-
+    width: '100%'
   },
   title: {
     fontSize: 20,
+    lineHeight: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    textAlignVertical: 'center'
   },
   separator: {
     marginVertical: 30,
     height: 1,
     width: '80%',
   },
+  scroll: {
+    width: '95%'
+  },
+  button: {
+    marginRight: 20,
+    height: 35
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+    width: '100%',
+    paddingLeft: 20,
+  }
 });
 
 const mapStateToProps = (state: any) => ({
