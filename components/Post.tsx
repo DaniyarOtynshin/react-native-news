@@ -12,19 +12,13 @@ type PostProps = {
 
 export const Post: FC<PostProps> = ({ post, navigation, indicator, action }) => {
 	const setPost = action[0] === 'add'
-
-	const title = post.title.split(' ')[0]
-
 	// @ts-ignore
 	return (
 		<Card style={styles.container}>
 			<Text style={styles.title}>
-				{title}
+				{post?.title}
 			</Text>
 			<Image style={styles.tinyLogo} source={{ uri: post?.thumbnailUrl }} />
-			<Text style={styles.category}>
-				ALBUM ID: {post.albumId}
-			</Text>
 			<Card.Actions style={styles.buttons}>
 				<Button
 					style={setPost ? styles['button-left--active'] : styles['button-left']}
@@ -69,7 +63,7 @@ const styles = StyleSheet.create({
 	},
 	tinyLogo: {
 		width: 'auto',
-		height: 100,
+		height: 200,
 		borderRadius: '15%',
 	},
 	buttons: {

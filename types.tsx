@@ -37,4 +37,5 @@ export type TPost = {
   title: string;
   url: string;
   thumbnailUrl: string;
+  description?: string;
 }

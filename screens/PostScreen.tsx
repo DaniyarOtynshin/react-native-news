@@ -7,7 +7,7 @@ import {TPost} from "../types";
 const PostScreen = ({ navigation, route }) => {
   const [post, setPost] = useState<TPost | undefined>()
 
-  const baseURL = 'https://jsonplaceholder.typicode.com/photos'
+
   const indicator = route.params.indicator
   const value = route.params.value
 
@@ -17,24 +17,32 @@ const PostScreen = ({ navigation, route }) => {
   }
 
   useEffect(() => {
-    // @ts-ignore
-    fetch(baseURL + config['id'] + value)
+    fetch('https://api.unsplash.com/photos'+ config['id'] + value + '?client_id=SvJ53XqRISs0ROSoihNNRXJbss09NXTLfyscUha-LjM')
       .then(response => response.json())
-      .then(json => setPost(json))
+      .then(json => {
+        const post = {
+          id: json.id,
+          albumId: 1,
+          title: json.title,
+          url: json.urls.small,
+          thumbnailUrl: json.urls.small,
+          description: json.description
+        }
+
+        setPost(post)
+      })
   }, [])
 
   const routeBack = indicator === 'id' ? ['TabOne'] : ['PostsScreen', {albumId: value}]
 
-  const title = post?.title.split(' ')[0]
-
   return (
     <Card style={styles.container}>
       <Text style={styles.title}>
-        {title}
+        {post?.title}
       </Text>
       <Image style={styles.tinyLogo} source={{ uri: post?.thumbnailUrl }} />
       <Text style={styles.description}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a tortor ante. Nulla facilisi. Nulla facilisi. Quisque iaculis congue enim, commodo consequat lorem porttitor nec. Nullam eu convallis erat. Curabitur mollis urna sed felis pulvinar sollicitudin.
+        Description: {post?.description}
       </Text>
       <Card.Actions style={styles.buttons}>
         <Button mode={'contained'} onPress={() => navigation.navigate(...routeBack)}>Back</Button>
@@ -72,8 +80,7 @@ const styles = StyleSheet.create({
   },
   tinyLogo: {
     width: 'auto',
-    height: 100,
-    // borderRadius: '15%',
+    height: 200
   },
   buttons: {
     marginTop: 15,

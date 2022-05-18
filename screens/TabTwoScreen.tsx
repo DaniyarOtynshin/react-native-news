@@ -1,22 +1,38 @@
 import { ScrollView, StyleSheet, View} from 'react-native';
 import {Button, Divider, Text } from 'react-native-paper';
-
-const albumIds = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+import {useEffect, useState} from "react";
 
 // @ts-ignore
 const TabTwoScreen = ({ navigation }) => {
+  const [collections, setCollections] = useState([])
+
+  useEffect(() => {
+    // fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+    fetch('https://api.unsplash.com/collections?client_id=SvJ53XqRISs0ROSoihNNRXJbss09NXTLfyscUha-LjM')
+      .then(response => response.json())
+      .then(json => {
+        const cols = json.map((item: any) => {
+          return {
+            id: item.id,
+            title: item.title
+          }
+        })
+        setCollections(cols)
+      })
+  }, [])
+
   return (
     <View style={styles.container}>
       <View style={styles.nav}>
         <Text style={styles.title}>Select album</Text>
         <ScrollView style={styles.scroll}>
-          {albumIds.map((albumId) => {
+          {collections.map((colItem) => {
             return (
-              <View style={styles.tab} key={albumId}>
-                <Text>{albumId}</Text>
+              <View style={styles.tab} key={colItem.id}>
+                <Text>{colItem.title}</Text>
                 <Divider />
-                <Button onPress={() => navigation.navigate('PostsScreen', {albumId}) }>
-                  ->
+                <Button onPress={() => navigation.navigate('PostsScreen', {albumId: colItem.id}) }>
+                  select
                 </Button>
               </View>
             )

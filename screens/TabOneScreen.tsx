@@ -16,9 +16,21 @@ const TabOneScreen: FC<TabOneScreenProps> = ({ navigation, favorites, unset, set
   const [photos, setPosts] = useState<Array<TPost> | []>([])
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+    // fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+    fetch('https://api.unsplash.com/photos?client_id=SvJ53XqRISs0ROSoihNNRXJbss09NXTLfyscUha-LjM')
       .then(response => response.json())
-      .then(json => setPosts(json))
+      .then(json => {
+        const posts = json.map((item: any) => {
+          return {
+            id: item.id,
+            albumId: 1,
+            title: item.title,
+            url: item.urls.small,
+            thumbnailUrl: item.urls.small,
+          }
+        })
+        setPosts(posts)
+      })
   }, [])
 
   const favoritesIds = useMemo(() => {

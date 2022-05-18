@@ -21,16 +21,27 @@ const PostsScreen = ({ navigation, route, unset, set, favorites }) => {
   }, [favorites])
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/photos?albumId=' + albumId)
+    // fetch('https://jsonplaceholder.typicode.com/albums/1/photos')
+    fetch(`https://api.unsplash.com/collections/${albumId}/photos/?client_id=SvJ53XqRISs0ROSoihNNRXJbss09NXTLfyscUha-LjM`)
       .then(response => response.json())
-      .then(json => setPosts(json))
+      .then(json => {
+        const posts = json.map((item: any) => {
+          return {
+            id: item.id,
+            albumId: 1,
+            title: item.title,
+            url: item.urls.small,
+            thumbnailUrl: item.urls.small,
+          }
+        })
+        setPosts(posts)
+      })
   }, [])
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Button style={styles.button} onPress={() => navigation.navigate('TabTwo')}>back</Button>
-        <Text style={styles.title}>Album: {albumId}</Text>
       </View>
       <ScrollView style={styles.scroll}>
         {photos.map((post) => {
